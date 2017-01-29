@@ -1096,7 +1096,14 @@ CardJs.prototype.setupExpiryInput = function() {
       }
     });
     
-    this.expiryMonthYearInput.on('input', function(e) {
+    // Try to catch when browsers/extensions autofill the expiry field, and
+    // update the hidden fields accordingly. We need to spot the card number
+    // blurring too because often this is the field that updates the expiry
+    // field when autocompleted.
+    this.expiryMonthYearInput.on('blur input', function(e) {
+      $this.updateHiddenExpiryFields();
+    });
+    this.cardNumberInput.on('blur input', function(e) {
       $this.updateHiddenExpiryFields();
     });
 
